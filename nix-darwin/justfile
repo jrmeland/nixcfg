@@ -1,0 +1,2 @@
+rebuild:
+    darwin-rebuild --show-trace  switch --flake .
