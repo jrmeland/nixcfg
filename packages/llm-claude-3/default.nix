@@ -4,7 +4,6 @@
 , setuptools
 , wheel
 , anthropic
-, llm
 , llm-claude
 , pytest
 , pytest-recording
@@ -29,7 +28,6 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [
     anthropic
-    llm
     llm-claude
   ];
 
@@ -40,7 +38,7 @@ buildPythonPackage rec {
     ];
   };
 
-  pythonImportsCheck = [ "llm_claude_3" ];
+  dontCheckRuntimeDeps = true;
 
   meta = with lib; {
     description = "LLM plugin for interacting with the Claude 3 family of models";

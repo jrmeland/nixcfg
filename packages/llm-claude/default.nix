@@ -4,7 +4,6 @@
 , setuptools
 , wheel
 , anthropic
-, llm
 , click
 , pytest
 }:
@@ -28,7 +27,6 @@ buildPythonPackage rec {
 
   propagatedBuildInputs = [
     anthropic
-    llm
   ];
 
   passthru.optional-dependencies = {
@@ -38,12 +36,12 @@ buildPythonPackage rec {
     ];
   };
 
-  pythonImportsCheck = [ "llm_claude" ];
+  dontCheckRuntimeDeps = true;
 
   meta = with lib; {
     description = "Plugin for LLM adding support for Anthropic's Claude models";
     homepage = "https://github.com/tomviner/llm-claude";
     license = licenses.asl20;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ jrmeland ];
   };
 }

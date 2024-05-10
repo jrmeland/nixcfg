@@ -1,5 +1,27 @@
 { config, pkgs, ... }:
 
+
+let
+  # Keep this around as an exmaple of overlay
+  # llm = pkgs.llm.overridePythonAttrs (oldAttrs: rec {
+  #   version = "0.13.1";
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "simonw";
+  #     repo = "llm";
+  #     rev = "refs/tags/${version}";
+  #     hash = "sha256-Nq6pduzl8IK+nA3pctst/W4ux7+P6mBFTEHMF+vtBQw=";
+  #   };
+  # });
+  llm-claude = pkgs.python311Packages.callPackage ../packages/llm-claude/default.nix {
+    inherit (pkgs.python311Packages) anthropic;
+  };
+  llm-claude-3 = pkgs.python311Packages.callPackage ../packages/llm-claude-3/default.nix {
+    inherit (pkgs.python311Packages) anthropic;
+    inherit llm-claude;
+
+  };
+  llmWithPlugins = pkgs.python311Packages.llm.withPlugins [ llm-claude-3 ];
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -18,13 +40,15 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
     pkgs.hello
     pkgs.nixpkgs-fmt
     pkgs.nil
-    pkgs.llm
+    pkgs.nix-init
     pkgs.manix
+
+
+    llmWithPlugins
+
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -102,6 +126,8 @@
       source /run/current-system/sw/etc/profile.d/nix-daemon.sh
       source /run/current-system/sw/etc/profile.d/nix.sh
       export PATH=/etc/profiles/per-user/josh/bin/:$PATH
+
+      llm models default claude-3-opus
     '';
   };
 
