@@ -3,47 +3,54 @@
 , fetchFromGitHub
 , setuptools
 , wheel
-, anthropic
+, pkgs
 , llm-claude
 , pytest
 , pytest-recording
 }:
 
-buildPythonPackage rec {
-  pname = "llm-claude-3";
-  version = "0.3";
-  pyproject = true;
+let
+  anthropic = pkgs.python311Packages.anthropic;
 
-  src = fetchFromGitHub {
-    owner = "simonw";
-    repo = "llm-claude-3";
-    rev = version;
-    hash = "sha256-MqcMpIhhMhWysq5aYEoKq/+gILZMnj/6uz+m73Bvc2E=";
-  };
+  llm-claude-3 = buildPythonPackage
+    rec {
+      pname = "llm-claude-3";
+      version = "0.3";
+      pyproject = true;
 
-  nativeBuildInputs = [
-    setuptools
-    wheel
-  ];
+      src = fetchFromGitHub {
+        owner = "simonw";
+        repo = "llm-claude-3";
+        rev = version;
+        hash = "sha256-MqcMpIhhMhWysq5aYEoKq/+gILZMnj/6uz+m73Bvc2E=";
+      };
 
-  propagatedBuildInputs = [
-    anthropic
-    llm-claude
-  ];
+      nativeBuildInputs = [
+        setuptools
+        wheel
+      ];
 
-  passthru.optional-dependencies = {
-    test = [
-      pytest
-      pytest-recording
-    ];
-  };
+      propagatedBuildInputs = [
+        anthropic
+        llm-claude
+      ];
 
-  dontCheckRuntimeDeps = true;
+      passthru.optional-dependencies = {
+        test = [
+          pytest
+          pytest-recording
+        ];
+      };
 
-  meta = with lib; {
-    description = "LLM plugin for interacting with the Claude 3 family of models";
-    homepage = "https://github.com/simonw/llm-claude-3";
-    license = licenses.asl20;
-    maintainers = with maintainers; [ jrmeland ];
-  };
-}
+      dontCheckRuntimeDeps = true;
+
+      meta = with lib; {
+        description = "LLM plugin for interacting with the Claude 3 family of models";
+        homepage = "https://github.com/simonw/llm-claude-3";
+        license = licenses.asl20;
+        maintainers = with maintainers; [ jrmeland ];
+      };
+    };
+
+in
+llm-claude-3

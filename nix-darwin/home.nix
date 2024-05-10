@@ -12,13 +12,9 @@ let
   #     hash = "sha256-Nq6pduzl8IK+nA3pctst/W4ux7+P6mBFTEHMF+vtBQw=";
   #   };
   # });
-  llm-claude = pkgs.python311Packages.callPackage ../packages/llm-claude/default.nix {
-    inherit (pkgs.python311Packages) anthropic;
-  };
+  llm-claude = pkgs.python311Packages.callPackage ../packages/llm-claude/default.nix { };
   llm-claude-3 = pkgs.python311Packages.callPackage ../packages/llm-claude-3/default.nix {
-    inherit (pkgs.python311Packages) anthropic;
     inherit llm-claude;
-
   };
   llmWithPlugins = pkgs.python311Packages.llm.withPlugins [ llm-claude-3 ];
 in
