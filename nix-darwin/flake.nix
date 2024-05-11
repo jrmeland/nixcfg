@@ -78,20 +78,6 @@
         ];
       };
 
-
-      programs.git = {
-        enable = true;
-        userName = "Josh";
-        userEmail = "joshmelander@gmail.com";
-        # config = {
-        #   init = {
-        #     defaultBranch = "main";
-        #   };
-        #   userName = "Josh";
-        #   userEmail = "joshmelander@gmail.com";
-        # };
-      };
-
       # Expose the package set, including overlays, for convenience.
       darwinPackages = self.darwinConfigurations."Joshs-MacBook-Pro".pkgs;
     };
