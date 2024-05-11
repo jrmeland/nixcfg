@@ -29,12 +29,12 @@
         # programs.zsh = true;
         # programs.fish.enable = true;
 
-        # system.defaults = {
-        #   dock.mru-spaces = false;
-        #   finder.AppleShowAllExtensions = true;
-        #   finder.FXPreferredViewStyle = "clmv";
-        #   screencapture.location = "~/Pictures/screenshots";
-        # };
+        system.defaults = {
+          dock.mru-spaces = false;
+          finder.AppleShowAllExtensions = true;
+          finder.FXPreferredViewStyle = "clmv";
+          screencapture.location = "~/Downloads";
+        };
 
         # Set Git commit hash for darwin-version.
         system.configurationRevision = self.rev or self.dirtyRev or null;
