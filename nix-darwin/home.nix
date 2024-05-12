@@ -41,6 +41,7 @@ in
     pkgs.nil
     pkgs.nix-init
     pkgs.manix
+    pkgs.direnv
 
 
     llmWithPlugins
