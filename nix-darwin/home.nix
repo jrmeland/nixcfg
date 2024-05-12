@@ -93,7 +93,7 @@ in
   #  /etc/profiles/per-user/josh/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "vim";
     TEST_ENV_VAR = "josh";
   };
 
