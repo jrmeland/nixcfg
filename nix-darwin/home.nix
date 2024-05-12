@@ -125,6 +125,7 @@ in
       export PATH=/etc/profiles/per-user/josh/bin/:$PATH
 
       llm models default claude-3-opus
+      eval "$(direnv hook zsh)"
     '';
   };
 
