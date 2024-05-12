@@ -16,8 +16,6 @@
         environment.systemPackages =
           [
             pkgs.vim
-            # Xcode dep management
-            pkgs.cocoapods
           ];
 
         # Auto upgrade nix package and the daemon service.
