@@ -1,2 +1,2 @@
 rebuild:
-    darwin-rebuild --show-trace  switch --flake .
+    nix run nix-darwin -- --show-trace  switch --flake .
