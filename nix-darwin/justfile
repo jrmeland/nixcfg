@@ -1,2 +1,5 @@
 rebuild:
     nix run nix-darwin -- --show-trace  switch --flake .
+
+update:
+    nix flake update
