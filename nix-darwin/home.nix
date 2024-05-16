@@ -3,20 +3,27 @@
 
 let
   # Keep this around as an exmaple of overlay
-  # llm = pkgs.llm.overridePythonAttrs (oldAttrs: rec {
-  #   version = "0.13.1";
-  #   src = pkgs.fetchFromGitHub {
-  #     owner = "simonw";
-  #     repo = "llm";
-  #     rev = "refs/tags/${version}";
-  #     hash = "sha256-Nq6pduzl8IK+nA3pctst/W4ux7+P6mBFTEHMF+vtBQw=";
-  #   };
-  # });
-  llm-claude = pkgs.python311Packages.callPackage ../packages/llm-claude/default.nix { };
-  llm-claude-3 = pkgs.python311Packages.callPackage ../packages/llm-claude-3/default.nix {
-    inherit llm-claude;
-  };
-  llmWithPlugins = pkgs.python311Packages.llm.withPlugins [ llm-claude-3 ];
+
+  llm = pkgs.python311Packages.llm.overridePythonAttrs (oldPython: rec {
+      version = "0.14";
+      src = pkgs.fetchFromGitHub { 
+        owner = "simonw"; 
+        repo = "llm"; 
+        rev = "refs/tags/0.14"; 
+        hash = "sha256-CgGVFUsntVkF0zORAtYQQMAeGtIwBbj9hE0Ei1OCGq4="; };
+    });
+  # llm-claude = pkgs.python311Packages.callPackage ../packages/llm-claude/default.nix { };
+  # llm-claude-3 = pkgs.python311Packages.callPackage ../packages/llm-claude-3/default.nix {
+  #   inherit llm-claude;
+  # };
+  # llmWithPlugins = (llm.withPlugins [ llm-claude-3 ]).overridePythonAttrs (oldPython: {
+  #     version = "0.14";
+  #     src = pkgs.fetchFromGitHub { 
+  #       owner = "simonw"; 
+  #       repo = "llm"; 
+  #       rev = "refs/tags/0.14"; 
+  #       hash = "sha256-CgGVFUsntVkF0zORAtYQQMAeGtIwBbj9hE0Ei1OCGq4="; };
+  #   });
 in
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -44,7 +51,9 @@ in
     pkgs.direnv
 
 
-    llmWithPlugins
+
+    # llmWithPlugins
+    llm
 
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -124,7 +133,7 @@ in
       source /run/current-system/sw/etc/profile.d/nix.sh
       export PATH=/etc/profiles/per-user/josh/bin:$PATH
 
-      llm models default claude-3-opus
+      llm models default 4o
       eval "$(direnv hook zsh)"
       export NVM_DIR="$HOME/.nvm"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
