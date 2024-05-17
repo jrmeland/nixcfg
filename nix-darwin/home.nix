@@ -49,6 +49,7 @@ in
     pkgs.nix-init
     pkgs.manix
     pkgs.direnv
+    pkgs.pngquant
 
 
 
