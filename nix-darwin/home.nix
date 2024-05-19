@@ -5,13 +5,14 @@ let
   # Keep this around as an exmaple of overlay
 
   llm = pkgs.python311Packages.llm.overridePythonAttrs (oldPython: rec {
-      version = "0.14";
-      src = pkgs.fetchFromGitHub { 
-        owner = "simonw"; 
-        repo = "llm"; 
-        rev = "refs/tags/0.14"; 
-        hash = "sha256-CgGVFUsntVkF0zORAtYQQMAeGtIwBbj9hE0Ei1OCGq4="; };
-    });
+    version = "0.14";
+    src = pkgs.fetchFromGitHub {
+      owner = "simonw";
+      repo = "llm";
+      rev = "refs/tags/0.14";
+      hash = "sha256-CgGVFUsntVkF0zORAtYQQMAeGtIwBbj9hE0Ei1OCGq4=";
+    };
+  });
   # llm-claude = pkgs.python311Packages.callPackage ../packages/llm-claude/default.nix { };
   # llm-claude-3 = pkgs.python311Packages.callPackage ../packages/llm-claude-3/default.nix {
   #   inherit llm-claude;
@@ -118,7 +119,10 @@ in
     autosuggestion = {
       enable = true;
     };
-    syntaxHighlighting.enable = true;
+    syntaxHighlighting = {
+      enable = true;
+
+    };
 
 
     oh-my-zsh = {
@@ -127,6 +131,20 @@ in
       plugins = [ "git" ];
 
     };
+
+    plugins = [
+      {
+        # will source zsh-autosuggestions.plugin.zsh
+        name = "zsh-completions";
+        src = pkgs.fetchFromGitHub {
+          owner = "zsh-users";
+          repo = "zsh-completions";
+          rev = "0.35.0";
+          sha256 = "sha256-GFHlZjIHUWwyeVoCpszgn4AmLPSSE8UVNfRmisnhkpg=";
+        };
+      }
+
+    ];
 
     initExtra = ''
       # Fuck it do it myself
