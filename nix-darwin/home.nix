@@ -129,12 +129,16 @@ in
       enable = true;
       theme = "robbyrussell";
       plugins = [ "git" ];
+      extraConfig = ''
 
+
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+      '';
     };
 
     plugins = [
       {
-        # will source zsh-autosuggestions.plugin.zsh
+        # will source zsh-completions.plugin.zsh
         name = "zsh-completions";
         src = pkgs.fetchFromGitHub {
           owner = "zsh-users";
@@ -143,7 +147,15 @@ in
           sha256 = "sha256-GFHlZjIHUWwyeVoCpszgn4AmLPSSE8UVNfRmisnhkpg=";
         };
       }
-
+      {
+        name = "fzf-tab";
+        src = pkgs.fetchFromGitHub {
+          owner = "Aloxaf";
+          repo = "fzf-tab";
+          rev = "v1.1.2";
+          sha256 = "sha256-Qv8zAiMtrr67CbLRrFjGaPzFZcOiMVEFLg1Z+N6VMhg=";
+        };
+      }
     ];
 
     initExtra = ''
@@ -158,6 +170,11 @@ in
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
       [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
     '';
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   # Let Home Manager install and manage itself.
