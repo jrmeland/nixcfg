@@ -51,6 +51,8 @@ in
     pkgs.manix
     pkgs.direnv
     pkgs.pngquant
+    pkgs.cocoapods
+    pkgs.pyenv
 
 
 
@@ -106,6 +108,8 @@ in
   home.sessionVariables = {
     EDITOR = "vim";
     TEST_ENV_VAR = "josh";
+    PYENV_ROOT = "$HOME/.pyenv";
+    PATH = "$PYENV_ROOT/bin:$PATH";
   };
 
   home.shellAliases = {
@@ -163,6 +167,9 @@ in
       source /run/current-system/sw/etc/profile.d/nix-daemon.sh
       source /run/current-system/sw/etc/profile.d/nix.sh
       export PATH=/etc/profiles/per-user/josh/bin:$PATH
+
+      # Initialize pyenv
+      eval "$(pyenv init -)"
 
       llm models default 4o
       eval "$(direnv hook zsh)"
